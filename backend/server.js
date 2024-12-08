@@ -7,9 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send("API is Running");
-});
+
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
@@ -20,15 +18,14 @@ mongoose.connect(process.env.MONGO_URI)
         console.error("MongoDB connection error:", err);
     });
 
+    //Create Operation 
 app.post('/', async (req, res) => {
     const { name, email, age } = req.body;
 
     try {
-        // Validate the input data
         if (!name || !email) {
             return res.status(400).json({ error: "Name and email are required." });
         }
-
         // Create a new user
         const userAdded = await userModel.create({
             name: name,
@@ -36,12 +33,22 @@ app.post('/', async (req, res) => {
             age: age,
         });
         
-        res.status(201).json(userAdded); // Use 201 for successful resource creation
+        res.status(201).json(userAdded); 
 
     } catch (error) {
         console.log(error);
         res.status(400).json({ error: error.message });
     }
+});
+app.get('/',  async (req, res) => {
+    try {
+       const showAllData = await userModel.find();
+       res.status(200).json(showAllData)
+    } catch (error) {
+        console.log(error)
+        res.send(400).json({error:error.message})
+    }
+    
 });
 
 app.listen(4000, () => {
