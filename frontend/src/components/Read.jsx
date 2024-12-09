@@ -8,7 +8,7 @@ const Read = () => {
   // Function to fetch data from the server
   async function getData() {
     try {
-      const response = await fetch("https://full-stack-project-kappa-nine.vercel.app/?vercelToolbarCode=BRUBumMzP1myTuv");
+      const response = await fetch("https://full-stack-project-kappa-nine.vercel.app/");
       const result = await response.json();
 
       if (!response.ok) {
@@ -29,7 +29,7 @@ const Read = () => {
   // Function to delete a user
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://full-stack-project-kappa-nine.vercel.app/?vercelToolbarCode=BRUBumMzP1myTuv/${id}`, {
+      const response = await fetch(`https://full-stack-project-kappa-nine.vercel.app/${id}`, {
         method: "DELETE",
       });
       const result = await response.json();

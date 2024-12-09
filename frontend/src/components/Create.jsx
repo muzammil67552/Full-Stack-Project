@@ -16,7 +16,7 @@ const Create = () => {
     const addUser = { name, email, age };
 
     try {
-      const response = await fetch("https://full-stack-project-kappa-nine.vercel.app/?vercelToolbarCode=BRUBumMzP1myTuv/", {
+      const response = await fetch("https://full-stack-project-kappa-nine.vercel.app/", {
         method: "POST",
         body: JSON.stringify(addUser),
         headers: {
