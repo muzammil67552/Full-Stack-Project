@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Read = () => {
-  const [data, setData] = useState([]); 
-  const [error, setError] = useState(""); 
-  const navigate = useNavigate();
+  const [data, setData] = useState([]); // State for storing fetched data
+  const [error, setError] = useState(""); // State for storing errors
 
+  // Function to fetch data from the server
   async function getData() {
     try {
-      const response = await fetch("http://localhost:4000"); // Fetch data from the server
+      const response = await fetch("http://localhost:4000");
       const result = await response.json();
 
       if (!response.ok) {
@@ -19,13 +19,38 @@ const Read = () => {
         }
       } else {
         setData(result); // Update state with fetched data
-        navigate("/all")
       }
     } catch (err) {
       setError("Failed to fetch data.");
       console.error(err);
     }
   }
+
+  // Function to delete a user
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:4000/${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log(result.error);
+        setError("Delete failed.");
+      } else {
+        setError("Deleted successfully.");
+        setTimeout(() => {
+          setError("");
+          getData(); // Refresh data after deletion
+        }, 1000);
+      }
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      setError("An error occurred while deleting.");
+    }
+  };
+
+ 
 
   useEffect(() => {
     getData();
@@ -35,13 +60,13 @@ const Read = () => {
     <div className="container my-2">
       <h1 className="text-center">All Data</h1>
 
-      {/* Show error message if there's an error */}
+      {/* Show error or success message */}
       {error && <p className="text-danger text-center">{error}</p>}
 
       <div className="row">
         {data.length > 0 ? (
-          data.map((item, index) => (
-            <div className="col-3" key={index._id}>
+          data.map((item) => (
+            <div className="col-3" key={item._id}>
               <div className="card" style={{ width: "18rem" }}>
                 <div className="card-body text-center">
                   <h5 className="card-title">{item.name || "No Name"}</h5>
@@ -49,18 +74,22 @@ const Read = () => {
                     {item.email || "No Email"}
                   </h6>
                   <p className="card-text">{item.age || "Age not specified"}</p>
-                  <a href="#" className="card-link">
+                  <a
+                    className="card-link"
+                    onClick={() => handleDelete(item._id)}
+                    style={{ cursor: "pointer" }}
+                  >
                     Delete
                   </a>
-                  <a href="#" className="card-link">
-                    Update
-                  </a>
+                  <Link to = {`/${item._id}`} className="card-link"  style={{ cursor: "pointer" }} >
+                    Edit
+                  </Link>
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-center">Loading data...</p> // Loading message if no data
+          <p className="text-center">Loading data...</p>
         )}
       </div>
     </div>
