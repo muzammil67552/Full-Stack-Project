@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState(0);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   console.log(name, email, age);
 
@@ -36,6 +38,7 @@ const Create = () => {
         setName("");
         setEmail("");
         setAge(0);
+        navigate("/all")
       }
     } catch (error) {
       setError("An unexpected error occurred.");
