@@ -1,16 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
 dotenv.config();
 const app = express();
-const userRouter = require("./routes/userRouter");
-const cors = require("cors")
 
-
-
+// Middleware
 app.use(express.json());
 app.use(cors());
-
 
 // Database connection
 mongoose.connect(process.env.MONGO_URI)
@@ -20,10 +18,15 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => {
         console.error("MongoDB connection error:", err);
     });
-app.use(userRouter);
 
+// Import and use your routes
+const userRouter = require("./routes/userRouter");
+app.use("/api", userRouter); // Add a prefix to your API routes
 
+// Export the app as a function for Vercel
+module.exports = app;
 
-app.listen(4000, () => {
-    console.log("Server is running on http://localhost:4000");
-});
+// Create a serverless function handler
+module.exports.handler = (req, res) => {
+    app(req, res); // Call the Express app with the request and response objects
+};
