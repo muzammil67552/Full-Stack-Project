@@ -2,8 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const userRouter = require("./routes/userRouter"); // Import userRouter
 
-dotenv.config();
+dotenv.config(); // Load environment variables
 const app = express();
 
 // Middleware
@@ -19,9 +20,8 @@ mongoose.connect(process.env.MONGO_URI)
         console.error("MongoDB connection error:", err);
     });
 
-// Import and use your routes
-const userRouter = require("./routes/userRouter");
-app.use("/api", userRouter); // Add a prefix to your API routes
+// Use userRouter for API routes
+app.use("/api/users", userRouter); // Prefix all user routes with /api/users
 
 // Export the app as a function for Vercel
 module.exports = app;

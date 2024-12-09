@@ -8,12 +8,12 @@ const Update = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const { id } = useParams(); // Extract the `id` from the URL params
+  const { id } = useParams(); 
 
   // Function to fetch the user data by ID
   const getSingleUser = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/${id}`);
+      const response = await fetch(`https://full-stack-project-kappa-nine.vercel.app/?vercelToolbarCode=BRUBumMzP1myTuv/${id}`);
       const result = await response.json();
 
       if (!response.ok) {
@@ -35,7 +35,7 @@ const Update = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
     try {
-      const response = await fetch(`http://localhost:4000/${id}`, {
+      const response = await fetch(`https://full-stack-project-kappa-nine.vercel.app/?vercelToolbarCode=BRUBumMzP1myTuv/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
