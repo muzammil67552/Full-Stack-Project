@@ -1,0 +1,9 @@
+
+# Environment files
+.env
+
+# Database configuration files
+userModel.js
+
+# Build directories
+
