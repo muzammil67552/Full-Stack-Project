@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
     });
 
 // Use userRouter for API routes
-app.use("/api/users", userRouter); // Prefix all user routes with /api/users
+app.use("/", userRouter); // Prefix all user routes with /api/users
 
 // Export the app as a function for Vercel
 module.exports = app;
